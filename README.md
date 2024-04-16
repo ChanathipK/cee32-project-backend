@@ -16,4 +16,6 @@
 
 0. if you cloned this repository, make sure to create a file called `.env` to store a variable called `PORT` and give it a value (free port, like 3000)
 
-1. Simply run `npm start`
+1. Run `npm install` to install all the needed dependencies.
+
+2. Simply run `npm start`.
