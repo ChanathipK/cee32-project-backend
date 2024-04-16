@@ -19,3 +19,7 @@
 1. Run `npm install` to install all the needed dependencies.
 
 2. Simply run `npm start`.
+
+## Where's the database?
+
+You will have to install `mongod` (self-hosted MongoDB Server) on your machine and run `mongod` in your terminal. After that, you will be able to connect to MongoDB server from `mongodb://127.0.0.1:27017/`
