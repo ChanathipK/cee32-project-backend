@@ -1,7 +1,7 @@
 {
   "name": "cee32-project-backend",
   "version": "1.0.0",
-  "description": "A backend for Computer Engineering Essential Group 32's Project",
+  "description": "A backend for Computer Engineering Essentials Group 32's Project",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
