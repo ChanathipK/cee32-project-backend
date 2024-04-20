@@ -34,9 +34,9 @@ router.post("/register", async (req, res) => {
             try {
                 const newUser = new User({
                     username: username,
-                    attack: 7,
-                    defence: 3,
-                    hp: 40,
+                    attack: 1,
+                    defence: 0,
+                    hp: 20,
                 });
                 const id = newUser._id;
                 await newUser.save();
