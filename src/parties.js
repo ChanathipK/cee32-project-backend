@@ -6,6 +6,9 @@ const partySchema = mongoose.Schema({
     },
     deck: {
         type: [Number],
+    },
+    turn: {
+        type: Number
     }
 });
 

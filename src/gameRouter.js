@@ -24,15 +24,11 @@ router.get("/parties", async (req, res) => {
 // get party
 router.get("/parties/:id", async (req, res) => {
     try {
-        // aggregate
-        /*
-        {
-            users: [User]
-        }
-        */
-
-        // temp send
-        res.status(201).send();
+        const { id } = req.params;
+        const party = await Party.findOne({
+            _id: id
+        });
+        res.status(201).json(party);
     } catch (err) {
         console.log(err);
         res.status(500).send();
@@ -48,7 +44,8 @@ router.post("/create", async (req, res) => {
             let shuffledDeck = shuffle(partyDeck);
             const party = new Party({
                 users: [userId],
-                deck: shuffledDeck
+                deck: shuffledDeck,
+                turn: 1
             });
             await party.save();
             res.status(201).json(party);
@@ -82,6 +79,27 @@ router.post("/join/:partyId", async (req, res) => {
         console.log(err);
         res.status(500).send();
     }
-})
+});
+
+// draw card
+router.post("/draw/:partyId", async (req, res) => {
+    try {
+        const { partyId } = req.params;
+        const party = await Party.findOne({
+            _id: partyId
+        });
+        const topCard = party.deck[party.deck.length - 1];
+        party.deck.pop();
+        party.turn += 1;
+        if (party.turn === 5) {
+            party.turn = 1;
+        }
+        await party.save();
+        res.status(201).json(topCard);
+    } catch (err) {
+        console.log(err);
+        res.status(500).send();
+    }
+});
 
 module.exports = router

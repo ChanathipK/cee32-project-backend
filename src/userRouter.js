@@ -29,14 +29,14 @@ router.get("/:id", async (req, res) => {
 // register
 router.post("/register", async (req, res) => {
     try {
-        const {username, attack, defence, hp} = req.body;
-        if (username && attack && defence && hp) {
+        const { username } = req.body;
+        if (username) {
             try {
                 const newUser = new User({
                     username: username,
-                    attack: attack,
-                    defence: defence,
-                    hp: hp,
+                    attack: 7,
+                    defence: 3,
+                    hp: 40,
                 });
                 const id = newUser._id;
                 await newUser.save();
