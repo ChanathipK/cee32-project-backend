@@ -40,7 +40,7 @@ router.post("/register", async (req, res) => {
                 });
                 const id = newUser._id;
                 await newUser.save();
-                res.status(200).json(id);
+                res.status(201).json(id);
             } catch (err) {
                 console.log(err);
                 res.status(400).send();

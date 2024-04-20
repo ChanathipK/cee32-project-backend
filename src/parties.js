@@ -2,7 +2,10 @@ const mongoose = require("mongoose");
 
 const partySchema = mongoose.Schema({
     users: {
-        type: [mongoose.Types.ObjectId]
+        type: [mongoose.SchemaTypes.ObjectId]
+    },
+    deck: {
+        type: [Number],
     }
 });
 
