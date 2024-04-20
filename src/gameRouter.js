@@ -1,6 +1,13 @@
 const express = require("express");
 const Party = require("./parties.js");
 
+const deck = require("./deck.js");
+
+// this function can be used to shuffle an array
+const shuffle = (array) => {
+    return array.sort(() => Math.random() - 0.5);
+}
+
 const router = express.Router();
 
 // get all parties
@@ -37,10 +44,14 @@ router.post("/create", async (req, res) => {
     try {
         const { userId } = req.body;
         if (userId) {
-            
+            let partyDeck = [...deck];
+            let shuffledDeck = shuffle(partyDeck);
             const party = new Party({
                 users: [userId],
+                deck: shuffledDeck
             });
+            await party.save();
+            res.status(201).json(party);
         } else {
             res.status(400).send();
         }
