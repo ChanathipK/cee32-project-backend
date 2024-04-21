@@ -1,7 +1,9 @@
 const express = require("express");
+const mongoose = require("mongoose");
 const Party = require("./parties.js");
-
 const deck = require("./deck.js");
+
+const sequence = [1, 2, 3, 4];
 
 // this function can be used to shuffle an array
 const shuffle = (array) => {
@@ -40,12 +42,15 @@ router.post("/create", async (req, res) => {
     try {
         const { userId } = req.body;
         if (userId) {
-            let partyDeck = [...deck];
-            let shuffledDeck = shuffle(partyDeck);
+            let copyDeck = [...deck];
+            let shuffledDeck = shuffle(copyDeck);
+            let copySequence = [...sequence];
+            let shuffledSequence = shuffle(copySequence);
             const party = new Party({
                 users: [userId],
                 deck: shuffledDeck,
-                turn: 1
+                turn: 1,
+                team: shuffledSequence
             });
             await party.save();
             res.status(201).json(party);
@@ -64,14 +69,28 @@ router.post("/join/:partyId", async (req, res) => {
         const { partyId } = req.params;
         const { userId } = req.body;
         if (userId) {
-            await Party.updateOne({
-                _id: partyId,
-            }, {
-                $push: {
-                    users: userId
-                }
+            const party = await Party.findOne({
+                _id: partyId
             });
-            res.status(201).json(partyId);
+            if (party.users.length >= 4) {
+                res.status(400).send();
+            } else if (party.users.length === 3) {
+                let id = new mongoose.Types.ObjectId(userId);
+                party.users.push(id);
+                await party.save();
+                res.status(201).json({
+                    isReady: true,
+                    partyId: partyId
+                });
+            } else {
+                let id = new mongoose.Types.ObjectId(userId);
+                party.users.push(id);
+                await party.save();
+                res.status(201).json({
+                    isReady: false,
+                    partyId: partyId,
+                });
+            }
         } else {
             res.status(400).send();
         }

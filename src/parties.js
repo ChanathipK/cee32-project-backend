@@ -9,6 +9,9 @@ const partySchema = mongoose.Schema({
     },
     turn: {
         type: Number
+    },
+    team: {
+        type: [Number]
     }
 });
 
