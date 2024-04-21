@@ -100,6 +100,19 @@ router.post("/join/:partyId", async (req, res) => {
     }
 });
 
+// delete party
+router.delete("/delete/:partyId", async (req, res) => {
+    try {
+        const { partyId } = req.params;
+        await Party.deleteOne({
+            _id: partyId
+        });
+        res.status(201).send();
+    } catch (err) {
+        console.log(err);
+    }
+});
+
 // draw card
 router.post("/draw/:partyId", async (req, res) => {
     try {
