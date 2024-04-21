@@ -17,6 +17,9 @@ const userSchema = mongoose.Schema({
     hp: {
         type: Number,
         required: true,
+    },
+    isDead: {
+        type: Boolean
     }
 });
 

@@ -37,6 +37,7 @@ router.post("/register", async (req, res) => {
                     attack: 1,
                     defence: 0,
                     hp: 20,
+                    isDead: false
                 });
                 const id = newUser._id;
                 await newUser.save();
@@ -48,6 +49,67 @@ router.post("/register", async (req, res) => {
             
         } else {
             res.status(400).json();
+        }
+    } catch (err) {
+        console.log(err);
+        res.status(500).send();
+    }
+});
+
+// Fighting Area
+
+// attack
+router.post("/attack/:targetId", async (req, res) => {
+    try {
+        const { userId, isDefenceUsed } = req.body;
+        if (userId && (isDefenceUsed !== null && isDefenceUsed !== undefined)) {
+            const { targetId } = req.params;
+            const user = await User.find({
+                _id: userId
+            });
+            const target = await User.find({
+                _id: targetId
+            });
+            if (isDefenceUsed) {
+                target.hp -= (user.attack - target.defence);
+            } else {
+                target.hp -= user.attack;
+            }
+            if (target.hp <= 0) {
+                target.isDead = true;
+                await target.save();
+                res.status(201).json({
+                    isTargetDead: true
+                });
+            } else {
+                await target.save();
+                res.status(201).json({
+                    isTargetDead: false
+                });
+            }
+        } else {
+            res.status(400).send();
+        }
+    } catch (err) {
+        console.log(err);
+        res.status(500).send();
+    }
+});
+
+// update stat
+router.post("/stat/:targetId", async (req, res) => {
+    try {
+        const { attack, defence, hp } = req.body;
+        if ((attack !== undefined) && (defence !== undefined) && (hp !== undefined)) {
+            const { targetId } = req.params;
+            const target = await User.find({
+                _id: targetId
+            });
+            target.attack += attack;
+            target.defence += defence;
+            target.hp += hp;
+            await target.save();
+            res.status(201).json(target);
         }
     } catch (err) {
         console.log(err);
