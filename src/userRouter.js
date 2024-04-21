@@ -71,7 +71,9 @@ router.post("/attack/:targetId", async (req, res) => {
                 _id: targetId
             });
             if (isDefenceUsed) {
-                target.hp -= (user.attack - target.defence);
+                if (target.defence < user.attack) {
+                    target.hp -= (user.attack - target.defence);
+                }
             } else {
                 target.hp -= user.attack;
             }
