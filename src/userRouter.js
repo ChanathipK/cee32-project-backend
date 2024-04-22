@@ -45,6 +45,7 @@ router.post("/register", async (req, res) => {
                         attack: 1,
                         defence: 0,
                         hp: 20,
+                        hand: 0,
                         isDead: false
                     });
                     const id = newUser._id;
@@ -121,6 +122,24 @@ router.post("/stat/:targetId", async (req, res) => {
             target.hp += hp;
             await target.save();
             res.status(201).json(target);
+        }
+    } catch (err) {
+        console.log(err);
+        res.status(500).send();
+    }
+});
+
+// update user's hand
+router.post("/hand/:userId", async (req, res) => {
+    try {
+        const { userId } = req.params;
+        const { number } = req.body;
+        if(userId){
+            const user = await User.find({
+                _id: userId
+            });
+            user.hand += number;
+            await user.save();
         }
     } catch (err) {
         console.log(err);

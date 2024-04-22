@@ -18,6 +18,9 @@ const userSchema = mongoose.Schema({
         type: Number,
         required: true,
     },
+    hand: {
+        type: Number,
+    },
     isDead: {
         type: Boolean
     }
