@@ -31,7 +31,7 @@ router.post("/register", async (req, res) => {
     try {
         const { username } = req.body;
         if (username) {
-            const user = await User.find({
+            const user = await User.findOne({
                 username: username,
             });
             if (user !== null) {
