@@ -31,20 +31,29 @@ router.post("/register", async (req, res) => {
     try {
         const { username } = req.body;
         if (username) {
-            try {
-                const newUser = new User({
-                    username: username,
-                    attack: 1,
-                    defence: 0,
-                    hp: 20,
-                    isDead: false
-                });
-                const id = newUser._id;
-                await newUser.save();
-                res.status(201).json(id);
-            } catch (err) {
-                console.log(err);
-                res.status(400).send();
+            const user = await User.find({
+                username: username,
+            });
+            if (user !== null) {
+                res.status(400).json({
+                    isUsernameUsed: true
+                })
+            } else {
+                try {
+                    const newUser = new User({
+                        username: username,
+                        attack: 1,
+                        defence: 0,
+                        hp: 20,
+                        isDead: false
+                    });
+                    const id = newUser._id;
+                    await newUser.save();
+                    res.status(201).json(id);
+                } catch (err) {
+                    console.log(err);
+                    res.status(400).send();
+                }
             }
             
         } else {
