@@ -157,4 +157,21 @@ router.post("/end/:partyId", async (req, res) => {
     }
 });
 
+// append message
+router.post("/message/:partyId", async (req,res)=> {
+    try {
+        const { partyId } = req.params;
+        const { message } = req.body;
+        const party = await Party.findOne({
+            _id: partyId
+        });
+        party.message.push(message);
+        await party.save();
+        res.status(200);
+    } catch (err) {
+        console.log(err);
+        res.status(500).send();
+    }
+});
+
 module.exports = router
