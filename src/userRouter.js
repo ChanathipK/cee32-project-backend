@@ -135,7 +135,7 @@ router.post("/hand/:userId", async (req, res) => {
         const { userId } = req.params;
         const { number } = req.body;
         if(userId){
-            const user = await User.find({
+            const user = await User.findOne({
                 _id: userId
             });
             user.hand += number;
