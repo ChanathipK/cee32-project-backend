@@ -50,7 +50,9 @@ router.post("/create", async (req, res) => {
                 users: [userId],
                 deck: shuffledDeck,
                 turn: 1,
-                team: shuffledSequence
+                team: shuffledSequence,
+                round: 1,
+                message: [],
             });
             await party.save();
             res.status(201).json(party);
@@ -124,10 +126,31 @@ router.post("/draw/:partyId", async (req, res) => {
         party.deck.pop();
         party.turn += 1;
         if (party.turn === 5) {
+            party.round += 1;
             party.turn = 1;
         }
         await party.save();
         res.status(201).json(topCard);
+    } catch (err) {
+        console.log(err);
+        res.status(500).send();
+    }
+});
+
+// end turn
+router.post("/end/:partyId", async (req, res) => {
+    try {
+        const { partyId } = req.params;
+        const party = await Party.findOne({
+            _id: partyId
+        });
+        party.turn += 1;
+        if (party.turn === 5) {
+            party.round += 1;
+            party.turn = 1;
+        }
+        await party.save();
+        res.status(200);
     } catch (err) {
         console.log(err);
         res.status(500).send();

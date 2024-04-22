@@ -12,6 +12,12 @@ const partySchema = mongoose.Schema({
     },
     team: {
         type: [Number]
+    },
+    round: {
+        type: Number
+    },
+    message: {
+        type: [String]
     }
 });
 
