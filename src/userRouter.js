@@ -119,9 +119,9 @@ router.post("/stat/:targetId", async (req, res) => {
             const target = await User.findOne({
                 _id: targetId
             });
-            target.attack += attack;
-            target.defence += defence;
-            target.hp += hp;
+            target.attack = attack;
+            target.defence = defence;
+            target.hp = hp;
             await target.save();
             res.status(201).json(target);
         }
