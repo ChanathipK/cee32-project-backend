@@ -75,10 +75,10 @@ router.post("/attack/:targetId", async (req, res) => {
         const { userId, isDefenceUsed } = req.body;
         if (userId && (isDefenceUsed !== null && isDefenceUsed !== undefined)) {
             const { targetId } = req.params;
-            const user = await User.find({
+            const user = await User.findOne({
                 _id: userId
             });
-            const target = await User.find({
+            const target = await User.findOne({
                 _id: targetId
             });
             if (isDefenceUsed) {

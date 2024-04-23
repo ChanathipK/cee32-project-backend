@@ -151,7 +151,7 @@ router.post("/end/:partyId", async (req, res) => {
             party.turn = 1;
         }
         await party.save();
-        res.status(200);
+        res.status(200).send();
     } catch (err) {
         console.log(err);
         res.status(500).send();
