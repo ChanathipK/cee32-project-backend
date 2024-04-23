@@ -1,13 +1,13 @@
-// (+1 atk): 1,  20 cards
-// (+2 atk): 2,  10 cards
-// (+1 atk): 3,  5  cards
-// (-1 atk): 4,  15 cards
-// (+1 def): 5,  12 cards
-// (+2 def): 6,  6  cards
-// (+1 def): 7,  3  cards
-// (-1 def): 8,  9  cards
-// (skip target 1 turn): 9,  10 cards
-// (penertrate 1 time):  10, 10 cards
+// (+1  atk)              : 1,  20 cards
+// (+2  atk -2 hp)        : 2,  10 cards
+// (+3  atk -3 hp)        : 3,  5  cards
+// (+4  hp)               : 4,  15 cards
+// (+1  def +1 hp)        : 5,  12 cards
+// (+3  def)              : 6,  6  cards
+// (+15 hp  -2 atk -2 def): 7,  3  cards
+// (+5  def -3 atk)       : 8,  9  cards
+// (+7  hp  -2 atk)       : 9,  10 cards
+// (draw 2)               : 10, 10 cards
 let cards = [];
 for (let i = 0; i < 20; i++) {
     cards.push(1);
