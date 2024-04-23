@@ -89,6 +89,7 @@ router.post("/attack/:targetId", async (req, res) => {
                 target.hp -= user.attack;
             }
             if (target.hp <= 0) {
+                target.hp = 0;
                 target.isDead = true;
                 await target.save();
                 res.status(201).json({
