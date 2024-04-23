@@ -1,9 +1,12 @@
+// imports
 const express = require("express");
 const cors = require("cors");
-const app = express();
+const connect = require("./src/db.js");
+const playerRouter = require("./src/userRouter.js");
+const gameRouter = require("./src/gameRouter.js")
 
-// dotenv is used to load variable from `.env` or `.env.*` into `process` global variable
-require('dotenv').config()
+// create express app
+const app = express();
 
 // setup cors
 app.use(cors());
@@ -14,8 +17,13 @@ app.use(express.urlencoded({ extended: true }));
 
 app.get("/", (req, res) => {
     res.send("Init Project");
-})
+});
 
-app.listen(process.env.PORT, () => {
+app.use("/api/v1/users", playerRouter);
+app.use("/api/v1/game", gameRouter);
+
+// dotenv is configured in ./src/db.js, so we don't have to config in server
+app.listen(process.env.PORT, async () => {
+    await connect();
     console.log(`Example app listening on port ${process.env.PORT}`)
-})
+});
