@@ -1,5 +1,6 @@
 const express = require("express");
 const User = require("./users.js");
+const { ConnectionStates } = require("mongoose");
 
 const router = express.Router();
 
@@ -114,7 +115,7 @@ router.post("/stat/:targetId", async (req, res) => {
         const { attack, defence, hp } = req.body;
         if ((attack !== undefined) && (defence !== undefined) && (hp !== undefined)) {
             const { targetId } = req.params;
-            const target = await User.find({
+            const target = await User.findOne({
                 _id: targetId
             });
             target.attack += attack;
@@ -140,6 +141,9 @@ router.post("/hand/:userId", async (req, res) => {
             });
             user.hand += number;
             await user.save();
+            res.status(202).json({
+                accepted: "true"
+            });
         }
     } catch (err) {
         console.log(err);

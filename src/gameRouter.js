@@ -123,6 +123,7 @@ router.post("/draw/:partyId", async (req, res) => {
             _id: partyId
         });
         const topCard = party.deck[party.deck.length - 1];
+        // console.log(topCard);
         party.deck.pop();
         // party.turn += 1;
         // if (party.turn === 5) {
