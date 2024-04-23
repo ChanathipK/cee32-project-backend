@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const Party = require("./parties.js");
 const deck = require("./deck.js");
+const User = require("./users.js");
 
 const sequence = [1, 2, 3, 4];
 
@@ -174,5 +175,27 @@ router.post("/message/:partyId", async (req,res)=> {
         res.status(500).send();
     }
 });
+
+// user exit
+// when user exit, a party containing that user's id must be deleted
+// and we also need to delete that user
+router.post("/exit", async (req, res) => {
+    try {
+        const { userId } = req.body;
+        if (userId) {
+            await Party.deleteOne({
+                users: userId
+            });
+            await User.deleteOne({
+                _id: userId
+            });
+            res.status(200).send();
+        }
+    } catch (err) {
+        console.log(err);
+        req.status(500).send();
+    }
+})
+
 
 module.exports = router
