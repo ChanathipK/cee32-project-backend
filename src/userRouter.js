@@ -151,4 +151,45 @@ router.post("/hand/:userId", async (req, res) => {
     }
 });
 
+// reset stat after game (may not be used)
+router.post("/reset", async (req, res) => {
+    try {
+        await User.updateMany({}, {$set: {
+            attack: 1,
+            defence: 0,
+            hp: 20,
+            hand: 0,
+            isDead: false,
+        }});
+        res.status(201).send();
+    } catch (err) {
+        console.log(err);
+        res.status(500).send();
+    }
+})
+
+// reset stat after game
+router.post("/reset/:userId", async (req, res) => {
+    try {
+        const { userId } = req.params;
+        const user = User.findOne({
+            _id: userId
+        });
+        if (user) {
+            user.attack = 1;
+            user.defence = 0;
+            user.hp = 20;
+            user.hand = 0;
+            user.isDead = false;
+            await user.save();
+            res.status(201).json(user);
+        } else {
+            res.status(400).send();
+        }
+    } catch (err) {
+        console.log(err);
+        res.status(500).send();
+    }
+})
+
 module.exports = router
